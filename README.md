@@ -1,5 +1,5 @@
 # BDD-Videoannotator-PHP
-Contains a PHP client to BDD-Videoannotator-Server and adapters 
+Contains a PHP client to BDD-Videoannotator-Server (see also [bdd_videoannotator](https://github.com/shell88/bdd_videoannotator)) and adapters 
 for PHP-based BDD-Frameworks.
 
 # Prerequisites
