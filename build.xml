@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="bdd_videoannotator" default="build" basedir=".">
+	<!--Execute with PHING
+	      Requires:
+		- composer installed  with PATH-envirionment-variable
+		- php cli installation
+    -->
+	<target name="build" depends="prepare, generate_stubs, test">
+	</target>
+	<target name="prepare">
+		<!-- Update Server Package before (SVN external) must be done manually-->
+		<exec command="composer update" dir="." checkreturn="true" logoutput="true"/> 
+		<exec command="composer install" dir="." checkreturn="true" logoutput="true"/> 
+	</target>
+	<target name="generate_stubs">
+		<delete dir="tmp" includeemptydirs="true" failonerror="false"/>
+		<unzip file="bdd_videoannotator/bdd-videoannotator-server.jar"
+			todir="tmp">
+		</unzip>
+		<exec command = "php wsdl2php.php -i tmp/META-INF/wsdl/AnnotationServiceService.wsdl -n bdd_videoannotator\stub_php" 
+		dir="." logoutput="true" checkreturn="true"/>
+		<delete dir="tmp" includeemptydirs="true"/>
+	</target>
+	<target name="test">
+		<exec command = "bin\behat" checkreturn="true" logoutput="true"/>
+	</target>
+</project>

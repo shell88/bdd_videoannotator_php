@@ -1,0 +1,15 @@
+#IDE files
+.buildpath
+.settings
+.project
+.classpath
+.metadata
+.recommenders
+
+#Build directories
+test_output/
+vendor/
+bin/
+
+#others
+composer.lock

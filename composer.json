@@ -1,0 +1,23 @@
+{
+   "name":         "shell88/bdd_videoannotator",
+   "description":  "Provides Plugins for PHP-based BDD-Frameworks that enables to generate screencasts with the annotated gherkin-steps.",
+   "homepage":     "https://github.com/shell88/bdd_videoannotator",
+   "license":      "Apache v.2.0",
+   "require-dev": {
+        "phpunit/phpunit": "4.7.*"
+   },
+   "require": {
+        "behat/behat": "2.4.0 - 2.5.5"
+   },
+   "config": {
+        "bin-dir": "bin/"
+   },
+   "autoload": {
+        "psr-4": {
+        		"bdd_videoannotator\\bddadapters\\": "bdd_videoannotator/bddadapters",
+        		"bdd_videoannotator\\stub_php\\": "bdd_videoannotator/stub_php"
+        }
+
+    }
+   
+}
