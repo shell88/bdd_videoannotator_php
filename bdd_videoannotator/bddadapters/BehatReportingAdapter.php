@@ -254,7 +254,8 @@ class BehatReportingAdapter implements FormatterInterface
     private function _isAssertionError($obj)
     {
 
-        if (get_class($obj) === "PHPUnit_Framework_AssertionFailedError") {
+        if (is_a($obj, "PHPUnit_Framework_AssertionFailedError") 
+            || is_a($obj, "Behat\Mink\Exception\ExpectationException")) {
             return true;
         }
         return false;

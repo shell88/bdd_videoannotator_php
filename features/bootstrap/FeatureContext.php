@@ -155,38 +155,47 @@ class FeatureContext extends BehatContext
             ->getMock();
         $this->adapterWithoutConnection = new \bdd_videoannotator\bddadapters\BehatReportingAdapter($stubbed_connector);
     }
+    
 
     /**
-     * @When /^the Adapter reports "([^"]*)" it be converted to "([^"]*)"$/
+     * @When /^the Adapter reports "([^"]*)" with exception  it should be converted to "([^"]*)"$/
      */
-    public function theAdapterReportsItBeConvertedTo($from_res, $expected)
+    public function theAdapterReportsWithExceptionItShouldBeConvertedTo($behatResult, $expected)
     {
-        $sample_test_case = new SampleTestCase();
-        $mockedStepEvent = $sample_test_case->getMockBuilder("Behat\Behat\Event\StepEvent")
-            ->disableOriginalConstructor()
-            ->getMock();
-        
-        if (strtolower($from_res) == "assertionfailure") {
-            $mockedStepEvent->method('hasException')->willReturn(true);  
-            $mockedStepEvent->method('getException')->willReturn(new PHPUnit_Framework_AssertionFailedError());
-            $mockedStepEvent->method('getResult')->willReturn(constant("Behat\Behat\Event\StepEvent::FAILED"));
-        } 
-        else if(strtolower($from_res) == "runtimeexception"){
-            $mockedStepEvent->method('hasException')->willReturn(true);
-            $mockedStepEvent->method('getException')->willReturn(new \Exception());
-            $mockedStepEvent->method('getResult')->willReturn(constant("Behat\Behat\Event\StepEvent::FAILED"));
-       
-        }
-        else {
-            $resultCode = constant("Behat\Behat\Event\StepEvent::{$from_res}");
-            $mockedStepEvent->method('hasException')->willReturn(false);
-            $mockedStepEvent->method('getResult')->willReturn($resultCode);
-        }
-        
-        $actualRes = $this->adapterWithoutConnection->convertResultToStepResult($mockedStepEvent);
-        
-        PHPUnit_Framework_Assert::assertEquals($expected, $actualRes, "FROMRES: $from_res");
+    	$sample_test_case = new SampleTestCase();
+    	$mockedStepEvent = $sample_test_case->getMockBuilder("Behat\Behat\Event\StepEvent")
+    	->disableOriginalConstructor()
+    	->getMock();
+    	
+    	$resultCode = constant("Behat\Behat\Event\StepEvent::{$behatResult}");
+    	$mockedStepEvent->method('hasException')->willReturn(false);
+    	$mockedStepEvent->method('getResult')->willReturn($resultCode);
+    	
+    	$actualRes = $this->adapterWithoutConnection->convertResultToStepResult($mockedStepEvent);
+    	PHPUnit_Framework_Assert::assertEquals($expected, $actualRes, "FROMRES: $behatResult");
     }
+    
+    /**
+     * @When /^the Adapter reports "([^"]*)" with exception "([^"]*)" it should be converted to "([^"]*)"$/
+     */
+    public function theAdapterReportsWithExceptionItShouldBeConvertedTo2($behatResult, $exceptionType, $expected)
+    {
+    	$sample_test_case = new SampleTestCase();
+    	$mockedStepEvent = $sample_test_case->getMockBuilder("Behat\Behat\Event\StepEvent")
+    	->disableOriginalConstructor()
+    	->getMock();
+    	
+    	$mockedStepEvent->method('hasException')->willReturn(true);
+      	$mockedStepEvent->method('getResult')->willReturn(constant("Behat\Behat\Event\StepEvent::FAILED"));
+      	
+      	$mockedException = $sample_test_case->getMockBuilder($exceptionType)->disableOriginalConstructor()->getMock();
+      	$mockedStepEvent->method('getException')->willReturn($mockedException);
+
+      	$actualRes = $this->adapterWithoutConnection->convertResultToStepResult($mockedStepEvent); 	
+      	PHPUnit_Framework_Assert::assertEquals($expected, $actualRes, "FROMRES: $behatResult");
+      	
+    }
+    
 }
 
 /**
