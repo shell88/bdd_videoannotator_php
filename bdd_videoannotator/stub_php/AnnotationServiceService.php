@@ -34,6 +34,49 @@ class AnnotationServiceService extends \SoapClient {
 	/**
 	 *  
 	 *
+	 * @param $scenarioName
+	 * @return void
+	 */
+	public function startScenario($scenarioName) {
+		return $this->__soapCall('startScenario', array($scenarioName), array(
+						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
+						'soapaction' => ''
+					)
+			);
+	}
+
+	/**
+	 *  
+	 *
+	 * @param 
+	 * @return void
+	 */
+	public function stopScenario() {
+		return $this->__soapCall('stopScenario', array(), array(
+						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
+						'soapaction' => ''
+					)
+			);
+	}
+
+	/**
+	 *  
+	 *
+	 * @param $steptext
+	 * @param $datatable
+	 * @return void
+	 */
+	public function addStepToBuffer($steptext, $datatable) {
+		return $this->__soapCall('addStepToBuffer', array($steptext, $datatable), array(
+						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
+						'soapaction' => ''
+					)
+			);
+	}
+
+	/**
+	 *  
+	 *
 	 * @param $path
 	 * @return void
 	 */
@@ -69,49 +112,6 @@ class AnnotationServiceService extends \SoapClient {
 	 */
 	public function addStepWithResult($steptext, $datatable, $result) {
 		return $this->__soapCall('addStepWithResult', array($steptext, $datatable, $result), array(
-						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
-						'soapaction' => ''
-					)
-			);
-	}
-
-	/**
-	 *  
-	 *
-	 * @param $scenarioName
-	 * @return void
-	 */
-	public function startScenario($scenarioName) {
-		return $this->__soapCall('startScenario', array($scenarioName), array(
-						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
-						'soapaction' => ''
-					)
-			);
-	}
-
-	/**
-	 *  
-	 *
-	 * @param 
-	 * @return void
-	 */
-	public function stopScenario() {
-		return $this->__soapCall('stopScenario', array(), array(
-						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
-						'soapaction' => ''
-					)
-			);
-	}
-
-	/**
-	 *  
-	 *
-	 * @param $steptext
-	 * @param $datatable
-	 * @return void
-	 */
-	public function addStepToBuffer($steptext, $datatable) {
-		return $this->__soapCall('addStepToBuffer', array($steptext, $datatable), array(
 						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
 						'soapaction' => ''
 					)

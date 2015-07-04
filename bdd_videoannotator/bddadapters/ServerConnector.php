@@ -165,7 +165,7 @@ class ServerConnector
     public function getStartCommandAnnotationServer()
     {
         $cmd = "java -jar " . dirname(__DIR__) . DIRECTORY_SEPARATOR 
-              . "bdd-videoannotator-server.jar ";
+              . "bdd-videoannotator-server-standalone.jar ";
         $cmd .= join(
             " ", array(
             $this->_publishAddress,

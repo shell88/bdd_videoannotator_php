@@ -3,8 +3,7 @@ Contains a PHP client to BDD-Videoannotator-Server (see also [bdd_videoannotator
 for PHP-based BDD-Frameworks.
 
 # Prerequisites
-- PHING    2.11.0*  (set also on PATH)
-- Composer 1.0-dev* (set also on PATH)
+- Composer 1.0-dev*
 - PHP 5.6.7*        (set also on PATH)
   - INI-options:
   - php_soap enabled
@@ -13,8 +12,13 @@ for PHP-based BDD-Frameworks.
 *Tested Version, others may also work
   
 #Building
+First you have to install all dependencies with composer
 ```sh
-phing -f build.xml
+composer install
 ````
+After that you can start the build using phing
+```sh
+bin\phing -f build.xml
+```
 
 
