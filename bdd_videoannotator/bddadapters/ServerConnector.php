@@ -103,15 +103,21 @@ class ServerConnector
     public function getServerClient()
     {
         if ($this->_client == null) {
-            try {
-                $this->_client = new \bdd_videoannotator\stub_php
-                \AnnotationServiceService($this->getWSDLLocation());
-            } catch (\SoapFault $e) {
-                throw new ServerConnectorException("Could not connect to Server: " . file_get_contents(self::SERVER_ERRORS_FILE));
-            }
-        }
-        return $this->_client;
-       
+        	for( $retries = 0; $retries < 3; $retries++){
+        		try {
+        			$this->_client = new \bdd_videoannotator\stub_php
+        			\AnnotationServiceService($this->getWSDLLocation());
+        			return $this->_client;
+        		} catch (\SoapFault $e) {
+        			echo "\nTrying to connect again, waiting 100 ms";
+        			usleep(100);
+        		}
+        		
+        	}
+            throw new ServerConnectorException("Could not connect to Server: " . file_get_contents(self::SERVER_ERRORS_FILE));
+            
+       }
+       return $this->_client; 
     }
     
 
