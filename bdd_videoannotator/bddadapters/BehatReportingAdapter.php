@@ -14,22 +14,18 @@
 namespace bdd_videoannotator\bddadapters;
 
 use bdd_videoannotator\stub_php;
-/*Composer resolves dependencies
 
-//require_once __DIR__ . "/ServerConnector.php";
-
-foreach (glob(dirname(__DIR__) . "/stub_php/*.php") as $filename) {
-    require_once $filename;
-}
-*/
 use Symfony\Component\Translation\Translator;
 use Behat\Behat\Formatter\FormatterInterface;
 use Behat\Behat\Event\EventInterface, Behat\Behat\Event\FeatureEvent, 
 Behat\Behat\Event\ScenarioEvent, 
 Behat\Behat\Event\OutlineEvent, Behat\Behat\Event\StepEvent;
 use Behat\Gherkin\Node\FeatureNode, Behat\Gherkin\Node\ScenarioNode, 
-Behat\Gherkin\Node\StepNode, Behat\Behat\Exception\FormatterException;
-
+Behat\Gherkin\Node\StepNode, Behat\Behat\Exception\FormatterException,
+Behat\Gherkin\Node\PyStringNode,
+Behat\Gherkin\Node\TableNode;
+use bdd_videoannotator\stub_php\stringArray;
+use bdd_videoannotator\stub_php\stringArrayArray;
 /**
  *  Behat Reporting Adapter for use of bdd_videoannotator.
  *  To use the Adapter call behat with option 
@@ -199,9 +195,20 @@ class BehatReportingAdapter implements FormatterInterface
      */    
     public function beforeStep(StepEvent $event)
     {
-        $this->_client->addStepToBuffer(
-            $event->getStep()->getText(), null
-        );
+    	
+    	$steptext = $event->getStep()->getText();
+    	$stepdata = null;
+        
+        foreach( $event->getStep()->getArguments() as $argument ){
+        	if ($argument instanceof PyStringNode) {
+        		$steptext .= $this->convertPyStringToNormalString($argument);
+        	} elseif ($argument instanceof TableNode) {
+        		$stepdata = $this->convertTableNodeToServerStringArray($argument);
+        	}      			    	
+        			
+        }
+        
+        $this->_client->addStepToBuffer($steptext, $stepdata);
     }
 
     /**
@@ -241,6 +248,35 @@ class BehatReportingAdapter implements FormatterInterface
         default:
              return stub_php\stepResult::ERROR;
         }
+    }
+    
+    /**
+     * Converts a PyStringObject to a normal stringObject with intents
+     * 
+     * @param PyStringNode $pynode
+     * 
+     * @return string
+     */
+    
+    public function convertPyStringToNormalString(PyStringNode $pynode){
+ 		$indent = " ";
+        $string = strtr(
+            sprintf("$indent\"\"\"\n%s\n\"\"\"", (string) $pynode), array("\n" => "\n$indent")
+        );
+    	return $string;
+    }
+    
+    public function convertTableNodeToServerStringArray(TableNode $tnode){
+    	
+    		$arr_object = array();
+			foreach($tnode->getRows() as $row){
+					$obj = new stringArray();
+					$obj->item = $row;
+					array_push($arr_object, $obj);
+			}
+			$serverStringArray = new stringArrayArray();
+			$serverStringArray->item = $arr_object;
+			return $serverStringArray; 	
     }
     
     /**

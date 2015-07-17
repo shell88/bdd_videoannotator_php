@@ -16,3 +16,12 @@ Feature: In order to use the annotation service a simple configurable Java API s
       | "FAILED"    | "Behat\Mink\Exception\ExpectationException"    | "FAILURE" |
       | "FAILED"    | "Behat\Mink\Exception\ElementHtmlException"    | "FAILURE" |
       | "FAILED"    | "\RuntimeException"                            | "ERROR"   |
+      
+  Scenario: ConvertPyStrings
+  Given I have an instance of the BDD-Adapter for Behat without a server connection
+  When I convert a pystringObject with: 
+  """
+  This is a pystring |558%$*|
+  """
+  Then I should get a string "This is a pystring |558%$*|" with pystring delimiters and a single intent
+    

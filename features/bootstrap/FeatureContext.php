@@ -17,8 +17,6 @@ Behat\Behat\Context\TranslatedContextInterface,
 Behat\Behat\Context\BehatContext,
  Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode, Behat\Gherkin\Node\TableNode;
-
-
 use bdd_videoannotator\bddadapters\ServerConnector;
 
 require_once 'lib_helper.php';
@@ -39,6 +37,7 @@ class FeatureContext extends BehatContext
     private $_connector;
     private $_adapterWithoutServer;
     private $_nameTestScenario;
+    private $_tempString;
    
     /**
      * Initializes context.
@@ -196,6 +195,26 @@ class FeatureContext extends BehatContext
       	
     }
     
+    /**
+     * @When /^I convert a pystringObject with:$/
+     */
+    public function iConvertAPystringobjectWith(PyStringNode $pyObject)
+    {
+    	$this->_tempString = $this->adapterWithoutConnection->convertPyStringToNormalString($pyObject);
+    }
+    
+    /**
+     * @Then /^I should get a string "([^"]*)" with pystring delimiters and a single intent$/
+     */
+    public function iShouldGetAStringWithPystringDelimiters($expectedString)
+    {	
+    	$intent = " ";
+    	$expected = "$intent\"\"\"" . "\n" . $intent . $expectedString . "\n$intent\"\"\"";
+    	PHPUnit_Framework_Assert::assertEquals($expected, $this->_tempString);
+    }
+    
+    
+
 }
 
 /**
