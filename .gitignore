@@ -10,6 +10,9 @@
 test_output/
 vendor/
 bin/
+phing*
+phpunit*
+behat*
 
 #others
 composer.lock

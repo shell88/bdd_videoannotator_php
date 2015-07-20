@@ -12,6 +12,6 @@
 		<delete dir="tmp" includeemptydirs="true"/>
 	</target>
 	<target name="test">
-		<exec command = "bin\behat" checkreturn="true" logoutput="true"/>
+		<exec command="behat" checkreturn="true" logoutput="true"/>
 	</target>
 </project>
