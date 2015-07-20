@@ -103,7 +103,7 @@ class ServerConnector
     public function getServerClient()
     {
         if ($this->_client == null) {
-        	for( $retries = 0; $retries < 3; $retries++){
+        	for( $retries = 0; $retries < 10; $retries++){
         		try {
         			$this->_client = new \bdd_videoannotator\stub_php
         			\AnnotationServiceService($this->getWSDLLocation());
@@ -112,10 +112,8 @@ class ServerConnector
         			echo "\nTrying to connect again, waiting 100 ms";
         			usleep(100);
         		}
-        		
         	}
-            throw new ServerConnectorException("Could not connect to Server: " . file_get_contents(self::SERVER_ERRORS_FILE));
-            
+            throw new ServerConnectorException("Could not connect to Server: " . file_get_contents(self::SERVER_ERRORS_FILE)); 
        }
        return $this->_client; 
     }
