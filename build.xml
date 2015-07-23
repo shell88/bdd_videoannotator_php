@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="bdd_videoannotator" default="build" basedir=".">
-	<target name="build" depends="generate_stubs, test">
+	<target name="build" depends="prepare, generate_stubs, test">
 	</target>
+	<target name="prepare">
+		<!--Phing has no built-in property for directory separator-->
+	     <if>
+	        <equals arg1="Linux" arg2="${host.os}"/>
+	        <then>
+	          <property name="scriptstartprefix" value="./" override="true"/>
+	        </then>
+	     <else>
+	     	 <property name="scriptstartprefix" value=".\" override="true"/>    
+	     </else>
+	     </if>
+    </target>
 	<target name="generate_stubs">
 		<delete dir="tmp" includeemptydirs="true" failonerror="false"/>
 		<unzip file="bdd_videoannotator/bdd-videoannotator-server-standalone.jar"
@@ -12,6 +24,6 @@
 		<delete dir="tmp" includeemptydirs="true"/>
 	</target>
 	<target name="test">
-		<exec command="behat" checkreturn="true" logoutput="true"/>
+		<exec command="${scriptstartprefix}behat" checkreturn="true" logoutput="true"/>
 	</target>
 </project>

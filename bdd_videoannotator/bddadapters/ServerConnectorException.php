@@ -9,7 +9,7 @@
  *  @package  Bdd_Videoannotator/BDDAdapters
  *  @author   Stefan Hell <stefan.hell88@gmail.com>
  *  @license  The Apache License, Version 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt
- *  @link     TODO
+ *  @link     https://github.com/shell88/bdd_videoannotator
  *
  */
 
@@ -25,7 +25,7 @@ namespace bdd_videoannotator\bddadapters;
  *  @package  Bdd_Videoannotator
  *  @author   Stefan Hell <stefan.hell88@gmail.com>
  *  @license  The Apache License, Version 2.0 http://www.apache.org/licenses/LICENSE-2.0.txt
- *  @link     TODO
+ *  @link     https://github.com/shell88/bdd_videoannotator
  *
  */
 
