@@ -102,7 +102,7 @@ class ServerConnector
      */
     public function getServerClient()
     {
-        if ($this->_client == null) {
+        if (!isset($this->_client)) {
             // Suppress printing of connection faults until retry ended
             error_reporting(0);
             for ($retries = 0; $retries < 30; $retries ++) {
@@ -110,7 +110,8 @@ class ServerConnector
                     break;
                 }
                 try {
-                    $this->_client = new \bdd_videoannotator\stub_php\AnnotationServiceService($this->getWSDLLocation());
+                    $this->_client = new \bdd_videoannotator\stub_php\AnnotationServiceService($this->getWSDLLocation(), 
+                    		array("cache_wsdl" => WSDL_CACHE_NONE));
                     ini_restore("error_reporting");
                     return $this->_client;
                 } catch (\SoapFault $e) {
@@ -139,7 +140,15 @@ class ServerConnector
         if (! isset($this->_server_process)) {
             return true;
         }
-        $this->getServerClient()->stopScenario();
+        
+        try{
+            $this->getServerClient()->stopScenario();
+        }
+        catch(\SoapFault $e){
+        	echo("Could not stop the Scenario: " . $e->getMessage());
+        }
+        
+        
         foreach ($this->_server_proc_pipes as $pipe) {
             fclose($pipe);
         }
@@ -147,7 +156,7 @@ class ServerConnector
         if (strtolower(PHP_OS) === "linux") {
             // server is started in a subshell => use pkill to find all child processes
             $cmd = "pkill -f " . escapeshellarg($this->getStartCommandAnnotationServer());
-            passthru($cmd, $return_var);
+            exec($cmd);
         } else {
             proc_terminate($this->_server_process);
             proc_close($this->_server_process);
