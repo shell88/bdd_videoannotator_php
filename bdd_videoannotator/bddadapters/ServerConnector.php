@@ -103,17 +103,19 @@ class ServerConnector
     public function getServerClient()
     {
         if ($this->_client == null) {
-        	for( $retries = 0; $retries < 30; $retries++){
-        		
+        	//Suppress printing of connection faults until retry ended
+        	error_reporting(0);
+        	for( $retries = 0; $retries < 30; $retries++){	
         		if(strlen($this->getServerErrors()) > 0) {
         				break;
         		}
         		try {
         			$this->_client = new \bdd_videoannotator\stub_php
         			\AnnotationServiceService($this->getWSDLLocation());
+        			ini_restore("error_reporting");
         			return $this->_client;
         		} catch (\SoapFault $e) {
-        			echo "\nTrying to connect again, waiting 100 ms";
+        			//Waiting 100 milliseconds
         			usleep(100000);
         		}
         	}

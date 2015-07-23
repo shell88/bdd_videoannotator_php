@@ -81,6 +81,7 @@ class FeatureContext extends BehatContext
 
     /**
      * @Given /^i must be able to stop the server$/
+     * @Given /^i stop the server$/
      */
     public function iMustBeAbleToStopTheServer()
     {
@@ -105,13 +106,6 @@ class FeatureContext extends BehatContext
         $this->connector->getServerClient()->addStepToBuffer("Teststep", null);
     }
 
-    /**
-     * @Given /^I stop the scenario$/
-     */
-    public function iStopTheScenario()
-    {
-        $this->connector->getServerClient()->stopScenario();
-    }
 
     /**
      * @Then /^i should get an annotation file$/

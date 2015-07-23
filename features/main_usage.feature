@@ -11,6 +11,6 @@ Feature: In order to use the annotation service a simple configurable Java API s
     Given I start the server from the provided client package
     When i start a new scenario
     And I add a samplestep to the scenario
-    And I stop the scenario
+    And i stop the server
     Then i should get an annotation file
     And i should get an video file
