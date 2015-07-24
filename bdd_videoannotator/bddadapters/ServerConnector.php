@@ -148,28 +148,41 @@ class ServerConnector
         	echo("Could not stop the Scenario: " . $e->getMessage());
         }
         
-        
         foreach ($this->_server_proc_pipes as $pipe) {
             fclose($pipe);
         }
         
+        
         if (strtolower(PHP_OS) === "linux") {
             // server is started in a subshell => use pkill to find all child processes
-            $cmd = "pkill -f " . escapeshellarg($this->getStartCommandAnnotationServer());
-            exec($cmd);
+            // kill will only send the signal so calling wait is neccessary here
+            $cmd_kill = "pkill -f " . escapeshellarg($this->getStartCommandAnnotationServer());
+            exec($cmd_kill);
+            $is_terminated = false;
+            $cmd_check_terminated = "pgrep -x -f " . escapeshellarg($this->getStartCommandAnnotationServer());
+
+            for($repetitions=0; $repetitions<20; $repetitions++){
+                exec($cmd_check_terminated, $output);
+                if(count($output) == 0){
+                        $is_terminated = true; 
+                        break;
+                }
+                unset($output);
+                //waiting 100 milliseconds
+                usleep(100000);
+            }
+
         } else {
             proc_terminate($this->_server_process);
             proc_close($this->_server_process);
+            $is_terminated = ! (proc_get_status($this->_server_process)["running"]);
         }
         
         if (file_exists(self::SERVER_ERRORS_FILE)) {
             unlink(self::SERVER_ERRORS_FILE);
-        }
-        
-        $is_terminated = ! (proc_get_status($this->_server_process)["running"]);
+        }   
         unset($this->_server_process);
-        unset($this->_client);
-        
+        unset($this->_client);  
         return $is_terminated;
     }
 
