@@ -5,6 +5,7 @@
 .classpath
 .metadata
 .recommenders
+.idea
 
 #Build directories
 test_output/
