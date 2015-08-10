@@ -10,10 +10,10 @@
         "phake/phake": "*@stable"
    },
    "require": {
-        "behat/behat": "2.4.0 - 2.5.5"
+        "behat/behat": "2.4.4 - 2.5.5"
    },
    "config": {
-        "bin-dir": "bin/"
+        "bin-dir": "."
    },
    "autoload": {
         "psr-4": {

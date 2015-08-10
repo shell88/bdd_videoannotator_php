@@ -18,7 +18,7 @@ composer install
 ````
 After that you can start the build using phing
 ```sh
-bin\phing -f build.xml
+phing -f build.xml
 ```
 
 
