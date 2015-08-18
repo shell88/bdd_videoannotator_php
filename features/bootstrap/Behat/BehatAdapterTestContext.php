@@ -144,10 +144,20 @@ CODE;
         $behatSubTestExecutor->executeSubTest();
     }
 
+
     /**
-     * @Then /^the Adapter should send following steps for the scenario "([^"]*)":$/
+     * @Then /^the Adapter should report the feature "([^"]*)"$/
      */
-    public function theAdapterShouldSendFollowingStepsForTheScenarioTest($scenarioName, PyStringNode $expected_steps)
+    public function theAdapterShouldReportTheFeature($expectedFeatureText)
+    {
+        Phake::verify($this->_mockedClient)->setFeatureText($expectedFeatureText);
+    }
+
+    
+    /**
+     * @Then /^the Adapter should report the scenario "([^"]*)" with following steps:$/
+     */
+    public function theAdapterShouldReportTheScenarioWithSteps($scenarioName, PyStringNode $expected_steps)
     {
         Phake::verify($this->_mockedClient, Phake::atLeast(1))->startScenario($scenarioName);
 

@@ -82,6 +82,8 @@ class BehatSubApplicationProxy extends Behat\Behat\Console\BehatApplication
     protected function createContainer($input)
     {
         $container = new ContainerBuilder();
+
+
         $this->loadCoreExtension($container, $this->loadConfiguration($container, $input));
 
         $container->setParameter("behat.formatter.name", "BehatReportingAdapterTestProxy");
@@ -90,5 +92,8 @@ class BehatSubApplicationProxy extends Behat\Behat\Console\BehatApplication
         $container->compile();
         return $container;
     }
+
+
+
 
 }

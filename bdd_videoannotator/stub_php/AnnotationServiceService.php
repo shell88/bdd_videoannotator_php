@@ -34,6 +34,20 @@ class AnnotationServiceService extends \SoapClient {
 	/**
 	 *  
 	 *
+	 * @param $featureText
+	 * @return void
+	 */
+	public function setFeatureText($featureText) {
+		return $this->__soapCall('setFeatureText', array($featureText), array(
+						'uri' => 'http://service.bddvideoannotator.shell88.github.com/',
+						'soapaction' => ''
+					)
+			);
+	}
+
+	/**
+	 *  
+	 *
 	 * @param $scenarioName
 	 * @return void
 	 */

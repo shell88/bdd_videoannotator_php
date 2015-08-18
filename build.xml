@@ -16,8 +16,10 @@
     </target>
 	<target name="generate_stubs">
 		<delete dir="tmp" includeemptydirs="true" failonerror="false"/>
-		<unzip file="bdd_videoannotator/bdd-videoannotator-server-standalone.jar"
-			todir="tmp">
+		<unzip 	todir="tmp">
+			<fileset dir="bdd_videoannotator">
+			<include name="bdd-videoannotator-server-*standalone.jar"/>
+			</fileset>
 		</unzip>
 		<exec command = "php wsdl2php.php -i tmp/META-INF/wsdl/AnnotationServiceService.wsdl -n bdd_videoannotator\stub_php" 
 		dir="." logoutput="true" checkreturn="true"/>

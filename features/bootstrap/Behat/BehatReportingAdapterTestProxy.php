@@ -17,6 +17,7 @@ use bdd_videoannotator\bddadapters\BehatReportingAdapter;
 use Behat\Behat\Event\OutlineEvent;
 use Behat\Behat\Event\ScenarioEvent;
 use Behat\Behat\Event\StepEvent;
+use Behat\Behat\Event\FeatureEvent;
 use Behat\Behat\Exception\FormatterException;
 use Behat\Behat\Formatter\FormatterInterface;
 use Symfony\Component\Translation\Translator;
@@ -94,6 +95,9 @@ class BehatReportingAdapterTestProxy implements FormatterInterface
         self::$_behatReportingAdapter->afterOutline($event);
     }
 
+    public function beforeFeature(FeatureEvent $event){
+        self::$_behatReportingAdapter->beforeFeature($event);
+    }
 
     public function beforeStep(StepEvent $event)
     {

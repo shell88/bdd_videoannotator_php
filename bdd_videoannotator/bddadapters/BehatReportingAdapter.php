@@ -5,6 +5,7 @@ namespace bdd_videoannotator\bddadapters;
 use bdd_videoannotator\stub_php;
 use bdd_videoannotator\stub_php\stringArray;
 use bdd_videoannotator\stub_php\stringArrayArray;
+use Behat\Behat\Event\FeatureEvent;
 use Behat\Behat\Event\OutlineEvent;
 use Behat\Behat\Event\ScenarioEvent;
 use Behat\Behat\Event\StepEvent;
@@ -108,6 +109,7 @@ class BehatReportingAdapter implements FormatterInterface
     public static function getSubscribedEvents()
     {
         $events = array(
+            'beforeFeature',
             'beforeScenario',
             'afterScenario',
             'beforeOutline',
@@ -115,9 +117,16 @@ class BehatReportingAdapter implements FormatterInterface
             'beforeStep',
             'afterStep'
         );
-
         return array_combine($events, $events);
     }
+    
+    public function beforeFeature(FeatureEvent $event)
+    {
+        $this->_client->setFeatureText(
+           $event->getFeature()->getTitle()
+       );
+    }
+
 
     /**
      * Listens to "scenario.before" event.

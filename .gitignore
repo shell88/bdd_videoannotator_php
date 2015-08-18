@@ -9,6 +9,7 @@
 
 #Build directories
 test_output/
+tmp/
 vendor/
 bin/
 phing*

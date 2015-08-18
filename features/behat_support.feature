@@ -28,16 +28,18 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
     Given I have an instance of the BDD-Adapter for Behat without a server connection
     And I have a feature file:
       """
-      Feature: test
-      Background: test
-      Given I have a background step
-      And I have also a second background step
+      Feature: Testing a feature
       
-      Scenario: Test
-      Given I have a TestScenario
+        Background: test
+        Given I have a background step
+        And I have also a second background step
+      
+        Scenario: Test
+        Given I have a TestScenario
       """
     When I run Behat
-    Then the Adapter should send following steps for the scenario "Test":
+    Then the Adapter should report the feature "Testing a feature"
+    And the Adapter should report the scenario "Test" with following steps:
       """
       Given I have a background step
       And I have also a second background step
@@ -49,7 +51,7 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
     Given I have an instance of the BDD-Adapter for Behat without a server connection
     And I have a feature file:
       """
-      Feature: test
+      Feature: Test another Feature
       
       Scenario Outline: AnExampleScenario
       Given I have a step with <value1> and <value2>
@@ -63,12 +65,14 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
       And there is also a second step
       """
     When I run Behat
-    Then the Adapter should send following steps for the scenario "AnExampleScenario":
+    Then the Adapter should report the feature "Test another Feature"
+    And the Adapter should report the scenario "AnExampleScenario" with following steps:
       """
       Given I have a step with "Test1-1" and "Test1-2"
       Given I have a step with "Test2-1" and "Test2-2"
       """
-    And the Adapter should send following steps for the scenario "AnotherScenario":
+
+    And the Adapter should report the scenario "AnotherScenario" with following steps:
       """
       Given I have a scenario with a step
       And there is also a second step
@@ -78,7 +82,7 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
     Given I have an instance of the BDD-Adapter for Behat without a server connection
     And I have a feature file:
       """
-      Feature: test
+      Feature: OutlineFeature
       Background: test
       Given I have a backgroundstep
       And a second backgroundstep
@@ -91,7 +95,8 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
       |"Test2-1" | "Test2-2"|
       """
     When I run Behat
-    Then the Adapter should send following steps for the scenario "Test":
+    Then the Adapter should report the feature "OutlineFeature"
+    And the Adapter should report the scenario "Test" with following steps:
       """
       Given I have a backgroundstep
       And a second backgroundstep
@@ -105,7 +110,7 @@ Feature: In order to support Behat, an easy to use adapter should be provided.
     Given I have an instance of the BDD-Adapter for Behat without a server connection
     And I have a feature file:
       """
-      Feature: test
+      Feature: DataTableFeature
       Scenario: Test with datatable
       Given I have a step with a datatable:
       |Col1         |Col2       |
