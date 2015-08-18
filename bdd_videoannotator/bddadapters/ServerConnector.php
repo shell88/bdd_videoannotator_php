@@ -213,7 +213,11 @@ class ServerConnector
      */
     public function getStartCommandAnnotationServer()
     {
-        $cmd = "java -jar " . dirname(__DIR__) . DIRECTORY_SEPARATOR . "bdd-videoannotator-server-standalone.jar ";
+        $standaloneJAR = $this->getPathToStandaloneServerJAR();
+        if(!isset($standaloneJAR)){
+            throw new ServerConnectorException("Could not find standalone-Server package");
+        }
+        $cmd = "java -jar $standaloneJAR ";
         $cmd .= join(" ", array(
             $this->_publishAddress,
             $this->_outputDirectory,
@@ -221,5 +225,16 @@ class ServerConnector
             $this->_video_height
         ));
         return $cmd;
+    }
+    
+    private function getPathToStandaloneServerJAR(){
+            $scandir = dirname(__DIR__);
+            $files = scandir($scandir);
+            foreach($files as $file){  
+                if(preg_match("/bdd-videoannotator-server-.*?standalone.jar/", $file, $matches)){           
+                    return $scandir . DIRECTORY_SEPARATOR . $matches[0];
+                }
+            }
+            return null;
     }
 }

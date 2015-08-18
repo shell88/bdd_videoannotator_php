@@ -1,7 +1,6 @@
 # encoding: utf-8
 Feature: In order to support Behat, an easy to use adapter should be provided.
 
-
   Scenario Outline: ResultsConversion
     Given I have an instance of the BDD-Adapter for Behat without a server connection
     When the Adapter reports <from_result> with exception <exception> it should be converted to <to_result>
