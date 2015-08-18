@@ -23,7 +23,7 @@
 		dir="." logoutput="true" checkreturn="true"/>
 		<delete dir="tmp" includeemptydirs="true"/>
 	</target>
-	<target name="test">
+	<target name="test" depends="prepare">
 		<exec command="${scriptstartprefix}behat" checkreturn="true" logoutput="true"/>
 	</target>
 </project>
