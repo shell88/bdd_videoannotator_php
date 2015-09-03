@@ -188,7 +188,7 @@ class ServerConnector
         } else {
             proc_terminate($this->_server_process);
             proc_close($this->_server_process);
-            $is_terminated = ! (proc_get_status($this->_server_process)["running"]);
+            $is_terminated = !is_resource($this->_server_process) || !(proc_get_status($this->_server_process)["running"]);
         }
         
         if (file_exists(self::SERVER_ERRORS_FILE)) {
