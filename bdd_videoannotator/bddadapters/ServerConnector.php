@@ -37,6 +37,7 @@ class ServerConnector
     private $_outputDirectory;
     private $_video_width;
     private $_video_height;
+    private $_convert2html;
     // Must pipe errors to a temporary outputfile as
     // pipe option from proc_open() does not work on windows
     const SERVER_ERRORS_FILE = "bdd_videoannotator_server_starterrors.txt";
@@ -58,6 +59,7 @@ class ServerConnector
         $this->_outputDirectory = $arguments['output_directory'];
         $this->_video_width = $arguments['video_width'];
         $this->_video_height = $arguments['video_height'];
+        $this->_convert2html = (bool) $arguments['convert2html'];
     }
 
     /**
@@ -88,11 +90,22 @@ class ServerConnector
             $this,
             'stopServer'
         ));
+        
+        register_shutdown_function(array($this, 'convert2Html'));
+        
         if (! is_resource($this->_server_process) || ! proc_get_status($this->_server_process)) {
             throw new ServerConnectorException("Could not start ServerProcess");
         }
         
         return $this->getServerClient();
+    }
+    
+    public function convert2Html(){
+    		if(!$this->_convert2html){
+    			return;
+    		}
+    		$cmd = $this->getStartCommandConvertProcess($this->_outputDirectory, $this->_outputDirectory . DIRECTORY_SEPARATOR . "html" );
+    		system($cmd);
     }
 
     /**
@@ -225,6 +238,13 @@ class ServerConnector
             $this->_video_height
         ));
         return $cmd;
+    }
+    
+    public function getStartCommandConvertProcess($inputDir, $outputDir){
+    	$standaloneJAR = $this->getPathToStandaloneServerJAR();
+    	$cmd = "java -cp $standaloneJAR com.github.shell88.bddvideoannotator.annotationfile.converter.HtmlConverter $inputDir $outputDir";
+    	echo $cmd;
+    	return $cmd;
     }
     
     private function getPathToStandaloneServerJAR(){
