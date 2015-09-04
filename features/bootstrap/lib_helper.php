@@ -46,9 +46,7 @@ class SubTestHelper
  * Removes all files in a directory recursively
  * and removes also the directory itself.
  *
- * @param unknown $dir the directory to remove recursively.
- *
- * @return nothing
+ * @param string $dir the directory to remove recursively.
  */
 
 function rmr($dir)

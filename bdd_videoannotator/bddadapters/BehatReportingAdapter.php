@@ -53,8 +53,6 @@ class BehatReportingAdapter implements FormatterInterface
      * It is never used by bdd_videoannotator.
      *
      * @param Translator $translator the translator that will be set.
-     *
-     * @return nothing
      */
     public function setTranslator(Translator $translator)
     {
@@ -78,10 +76,8 @@ class BehatReportingAdapter implements FormatterInterface
      * Used to set a paremter value from the command line
      * Not used.
      *
-     * @param unknown $name Name of the parameter.
-     * @param unknown $value Value of the parameter.
-     *
-     * @return nothing
+     * @param $name string Name of the parameter.
+     * @param $value string Value of the parameter.
      */
     public function setParameter($name, $value)
     {
@@ -92,9 +88,8 @@ class BehatReportingAdapter implements FormatterInterface
      * Returns a parameter Value.
      * Not used.
      *
-     * @param unknown $name Name of the parameter.
-     *
-     * @return nothing
+     * @param $name string Name of the parameter.
+     * @return null
      */
     public function getParameter($name)
     {
@@ -104,7 +99,7 @@ class BehatReportingAdapter implements FormatterInterface
     /**
      * Subscribes to Events of Behat.
      *
-     * @return multitype Array with the eventNames.
+     * @return array Array with the eventNames.
      */
     public static function getSubscribedEvents()
     {
@@ -119,12 +114,12 @@ class BehatReportingAdapter implements FormatterInterface
         );
         return array_combine($events, $events);
     }
-    
+
     public function beforeFeature(FeatureEvent $event)
     {
         $this->_client->setFeatureText(
-           $event->getFeature()->getTitle()
-       );
+            $event->getFeature()->getTitle()
+        );
     }
 
 
@@ -132,8 +127,6 @@ class BehatReportingAdapter implements FormatterInterface
      * Listens to "scenario.before" event.
      *
      * @param ScenarioEvent $event Event that contains the scenario.
-     *
-     * @return nothing
      */
     public function beforeScenario(ScenarioEvent $event)
     {
@@ -147,8 +140,6 @@ class BehatReportingAdapter implements FormatterInterface
      *
      * @param ScenarioEvent $event Event that contains the scenario.
      *
-     * @return nothing
-     *
      * @uses printTestCase()
      */
     public function afterScenario(ScenarioEvent $event)
@@ -159,9 +150,7 @@ class BehatReportingAdapter implements FormatterInterface
     /**
      * Listens to "outline.example.before" event. Starts the scenario on the server.
      *
-     * @param OutlineExampleEvent $event Event that contains the scenarioOutline.
-     *
-     * @return nothing
+     * @param $event OutlineEvent Event that contains the scenarioOutline.
      */
     public function beforeOutline(OutlineEvent $event)
     {
@@ -174,8 +163,6 @@ class BehatReportingAdapter implements FormatterInterface
      * Stops the scenario on the server.
      *
      * @param OutlineEvent $event Event containing scenario-Information.
-     *
-     * @return nothing
      */
     public function afterOutline(OutlineEvent $event)
     {
@@ -186,8 +173,6 @@ class BehatReportingAdapter implements FormatterInterface
      * Adds a step to the stepBuffer on the server.
      *
      * @param StepEvent $event - The step to be added on the server.
-     *
-     * @return nothing
      */
     public function beforeStep(StepEvent $event)
     {
@@ -208,8 +193,6 @@ class BehatReportingAdapter implements FormatterInterface
      * Adds the result of the stepExceution to the server.
      *
      * @param StepEvent $event The executed Step.
-     *
-     * @return nothing
      */
     public function afterStep(StepEvent $event)
     {
@@ -220,8 +203,7 @@ class BehatReportingAdapter implements FormatterInterface
      * Converts the behat-Result to the serverSide format.
      *
      * @param StepEvent $event The event containing the behat StepResult.
-     *
-     * @return string
+     * @return stub_php\stepResult
      */
     public function convertResultToStepResult(StepEvent $event)
     {
@@ -263,7 +245,6 @@ class BehatReportingAdapter implements FormatterInterface
 
     public function convertTableNodeToServerStringArray(TableNode $tnode)
     {
-
         $arr_object = array();
         foreach ($tnode->getRows() as $row) {
             $obj = new stringArray();
@@ -278,14 +259,13 @@ class BehatReportingAdapter implements FormatterInterface
     /**
      * Checks if an exception is an assertionError
      *
-     * @param unknown $obj The object to check
+     * @param \Exception $obj The object to check
      *
      * @return boolean     true if $obj is an assertionError
      */
 
     private function _isAssertionError($obj)
     {
-
         if (is_a($obj, "PHPUnit_Framework_AssertionFailedError")
             || is_a($obj, "Behat\Mink\Exception\ExpectationException")
         ) {

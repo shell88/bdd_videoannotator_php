@@ -108,7 +108,7 @@ class BehatAdapterTestContext extends BehatContext
         $this->_subTestDirectory = SubTestHelper::getNewSubTestDirectory();
         $this->_classNameFeatureContext = strtoupper(basename($this->_subTestDirectory));
         $featureDirectory = $this->_subTestDirectory . DIRECTORY_SEPARATOR . "features";
-        $created = mkdir($featureDirectory);
+        mkdir($featureDirectory);
 
         $fhandle = fopen($featureDirectory . DIRECTORY_SEPARATOR . "subtest.feature", "w+");
         fwrite($fhandle, $content);
@@ -116,7 +116,7 @@ class BehatAdapterTestContext extends BehatContext
 
         // write also sample featurecontext => Behat will exit otherwise
         $bootsStrapFolder = $featureDirectory . DIRECTORY_SEPARATOR . "bootstrap";
-        $created = mkdir($bootsStrapFolder);
+        mkdir($bootsStrapFolder);
         $fhandle = fopen($bootsStrapFolder . DIRECTORY_SEPARATOR . $this->_classNameFeatureContext . ".php", "w+");
         // HEREDOCSYNTAX
         $contentSampleFile = <<<CODE

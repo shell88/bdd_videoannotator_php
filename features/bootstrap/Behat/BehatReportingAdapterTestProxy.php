@@ -22,6 +22,8 @@ use Behat\Behat\Exception\FormatterException;
 use Behat\Behat\Formatter\FormatterInterface;
 use Symfony\Component\Translation\Translator;
 
+//TODO: Enhance binding of Adapter Methods to Proxy
+
 class BehatReportingAdapterTestProxy implements FormatterInterface
 {
 
