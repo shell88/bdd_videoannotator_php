@@ -244,7 +244,6 @@ class ServerConnector
     {
         $standaloneJAR = $this->getPathToStandaloneServerJAR();
         $cmd = "java -cp $standaloneJAR com.github.shell88.bddvideoannotator.annotationfile.converter.HtmlConverter $inputDir $outputDir";
-        echo $cmd;
         return $cmd;
     }
 
